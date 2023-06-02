@@ -1,0 +1,259 @@
+ <head>
+     <style>
+.container {
+  height: fit-content;
+}
+ </style>
+ </head>
+ 
+ <div>
+    <span  class="btn" onclick="goBack()" class="back-button "id="previousArrow" style="color: rgb(8, 0, 0);">
+        <i class="zmdi zmdi-arrow-left"></i></span>
+        <span  class="btn" onclick="goNext()" class="back-button " id="nextArrow"  style="color: rgb(6, 0, 0);">
+            <i class="zmdi zmdi-arrow-right"></i></span>
+    </div>
+ <!-- Sign up form -->
+ <section class="signup">
+    <div class="container">
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Sign up</h2>
+                <% if(signupErr){ %>
+                  <p style="color: crimson;"><%=signupErr %>
+                  </p>
+                    <% } %>
+                <form method="POST" action="/signup" name="myForm" onsubmit="return validateForm()" class="register-form" id="register-form">
+                    <div class="form-group">
+                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="name" id="name" placeholder="Your Name" />
+                        <span id="username-error" style="color: red;"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-email"></i></label>
+                        <input type="email" name="email" id="email" placeholder="Your Email" />
+                        <span id="email-error" style="color: red;"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile"><i class="zmdi zmdi-phone"></i></label>
+                        <input type="text" name="mobile" id="mobile" placeholder="Your Number" />
+                        <span id="mobile-error" style="color: red;"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="password" id="password" placeholder="Password" />
+                        <span id="password-error" style="color: red;"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                        <input type="password" name="re_password" id="confirm-password" placeholder="Repeat your password" />
+                        <span id="confirm-password-error" style="color: red;"></span>
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src="/img/signup-image.jpg" alt="sing up image"></figure>
+                <a href="/signin" class="signup-image-link">I am already member</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+        
+<script>
+      function validateForm() {
+    var name = document.forms["myForm"]["name"].value;
+    var email = document.forms["myForm"]["email"].value;
+    var mobile = document.forms["myForm"]["mobile"].value;
+    var password = document.forms["myForm"]["password"].value;
+    var confirm_password = document.forms["myForm"]["re_password"].value;
+
+    // Check if name is valid
+    if (!isValidName(name)) {
+        document.getElementById("username-error").innerHTML = "Please enter a valid name (letters and spaces only).";
+        return false;
+    } else {
+        document.getElementById("username-error").innerHTML = "";
+    }
+
+    // Check if email is valid
+    if (!isValidEmail(email)) {
+        document.getElementById("email-error").innerHTML = "Please enter a valid email address.";
+        return false;
+    } else {
+        document.getElementById("email-error").innerHTML = "";
+    }
+
+    // Check if mobile number is valid
+    if (!isValidMobile(mobile)) {
+        document.getElementById("mobile-error").innerHTML = "Please enter a valid mobile number.";
+        return false;
+    } else {
+        document.getElementById("mobile-error").innerHTML = "";
+    }
+
+    // Check if password meets requirements
+    if (!isValidPassword(password)) {
+        document.getElementById("password-error").innerHTML = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+        return false;
+    } else {
+        document.getElementById("password-error").innerHTML = "";
+    }
+
+    // Check if password and confirm password match
+    if (password != confirm_password) {
+        document.getElementById("confirm-password-error").innerHTML = "Passwords do not match.";
+        return false;
+    } else {
+        document.getElementById("confirm-password-error").innerHTML = "";
+    }
+
+     // Check if all required fields are filled out
+     if (name == "" || email == "" || mobile == "" || password == "" || confirm_password == "") {
+        alert("Please fill out all fields.");
+        return false;
+    }
+
+    return true;
+} 
+
+// function for the name validation
+function isValidName(name) {
+    var regex = /^[a-zA-Z\s]+$/;
+    return regex.test(name);
+}
+
+// Function to check if email is valid
+function isValidEmail(email) {
+    var email_regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return email_regex.test(email);
+}
+
+// Function to check if mobile number is valid
+function isValidMobile(mobile) {
+    var mobile_regex = /^\d{10}$/;
+    return mobile_regex.test(mobile);
+}
+
+// Function to check if password is valid
+function isValidPassword(password) {
+    var password_regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return password_regex.test(password);
+}
+
+        </script>
+
+        <script>
+       
+
+
+// 		function validateForm() {
+//   var username = document.forms["myForm"]["name"].value;
+//   var email = document.forms["myForm"]["email"].value;
+//   var password = document.forms["myForm"]["password"].value;
+//   var mobile = document.forms["myForm"]["mobile"].value;
+  
+//   // Define the regular expressions for validation
+//   var usernameRegex = /^[a-zA-Z0-9_]+$/;
+//   var emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+//   var passwordRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{4,}$/;
+//   var mobileRegex = /^\d{10}$/;
+
+//   // Validate the input fields
+//   if (!username.match(usernameRegex)) {
+//     document.getElementById("username-error").innerHTML = "Username can only contain letters, numbers and underscore.";
+//     return false;
+//   } else {
+//     document.getElementById("username-error").innerHTML = "";
+//   }
+//   if (!email.match(emailRegex)) {
+//     document.getElementById("email-error").innerHTML = "Please enter a valid email address.";
+//     return false;
+//   } else {
+//     document.getElementById("email-error").innerHTML = "";
+//   }
+//   if (!password.match(passwordRegex)) {
+//     document.getElementById("password-error").innerHTML = "Password must contain at least 4 characters including one uppercase letter, one lowercase letter, one number and one special character.";
+//     return false;
+//   } else {
+//     document.getElementById("password-error").innerHTML = "";
+//   }
+//   if (!mobile.match(mobileRegex)) {
+//     document.getElementById("mobile-error").innerHTML = "Please enter a valid mobile number.";
+//     return false;
+//   } else {
+//     document.getElementById("mobile-error").innerHTML = "";
+//   }
+
+//   // If all the input fields are valid, submit the form
+//   return true;
+// }
+
+
+//   const passwordInput = document.getElementById("password");
+//   const confirmPasswordInput = document.getElementById("confirm-password");
+//   const passwordError = document.getElementById("password-error");
+//   const confirmPasswordError = document.getElementById("confirm-password-error");
+
+//   function validatePassword() {
+//     if (passwordInput.value.length < 4) {
+//       passwordError.innerText = "Password must be at least 4 characters long";
+//       return false;
+//     } else {
+//       passwordError.innerText = "";
+//       return true;
+//     }
+//   }
+
+//   function validateConfirmPassword() {
+//     if (confirmPasswordInput.value !== passwordInput.value) {
+//       confirmPasswordError.innerText = "Passwords do not match";
+//       return false;
+//     } else {
+//       confirmPasswordError.innerText = "";
+//       return true;
+//     }
+//   }
+
+//   function validateForm() {
+//     const isPasswordValid = validatePassword();
+//     const isConfirmPasswordValid = validateConfirmPassword();
+//     return isPasswordValid && isConfirmPasswordValid;
+//   }
+
+//   const form = document.querySelector("form");
+//   form.addEventListener("submit", (event) => {
+//     if (!validateForm()) {
+//       event.preventDefault();
+//     }
+//   });
+
+        //     function validateForm() {
+        //   let x = document.forms["myForm"]["name"].value;
+        //   let y = document.forms["myForm"]["email"].value;
+        //   let z = document.forms["myForm"]["password"].value;
+        //   let m = document.forms["myForm"]["mobile"].value;
+        //   if (x == ""||y ==""||z ==""||m =="") {
+        //     alert("please fill all fields");
+        //     return false;
+        //   }else if(!/^[a-zA-Z0-9\_.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+?$/.test(y)){
+        //       alert("Please re-check at email")
+        //       return false
+        //   }else if(!/^[a-zA-Z]*$/.test(x)){
+        //     alert("Please enter your name correctly")
+        //     return false
+        //   }else if(z.length < 4){
+        //     alert("password should atlest 4 ")
+        //     return false
+        //   }else if (!/[0-9]/.test(m)){
+        //     alert('enter the mobile number correctly')
+        //   }
+        
+        // }
+        
+          
+        
+       </script>

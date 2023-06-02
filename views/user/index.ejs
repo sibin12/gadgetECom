@@ -1,0 +1,263 @@
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+</head>
+
+<body>
+
+ 
+    <!-- Carousel Start -->
+    <div class="container-fluid mb-3">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
+                    <ol class="carousel-indicators  " style="z-index: 1;">
+                        <% for (let i=0; i < banners.length; i++) { %>
+                            <li data-target="#header-carousel" data-slide-to="<%= i %>" <% if (i===0) { %>class="active"
+                                <% } %>>
+                            </li>
+                            <% } %>
+                    </ol>
+                    <div class="carousel-inner">
+                        <% banners.forEach((banner, index)=> { %>
+                            <div class="carousel-item position-relative <% if (index === 0) { %>active<% } %>"
+                                style="height: 430px;">
+                                <img class="position-absolute w-100 h-100" src="/uploads/banner/<%= banner.image %>"
+                                    style="object-fit: cover;">
+                                <div
+                                    class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                    <div class="p-3" style="max-width: 700px;">
+                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                            <%= banner.name %>
+                                        </h1>
+                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn"
+                                            style="color: rgb(255, 166, 166);">
+                                            <%= banner.description %>
+                                        </p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="col-lg-4">
+                <% for (let i = 0; i < offers.length; i++) { %>
+                    <div class="product-offer mb-30" style="height: 200px;">
+                      <img class="img-fluid" src="/uploads/offer/<%= offers[i].image %>" alt="">
+                      <div class="offer-text">
+                        <h6 class="text-white text-uppercase"> save above <%= offers[i].percentage %>%</h6>
+                        <h3 class="text-white mb-3"><%= offers[i].name %></h3>
+                        <a href="/offer-view-user?percentage=<%=offers[i].percentage %>&&categoryId=<%= offers[i].category %>&&img=<%=offers[i].image %>" class="btn btn-primary">Shop Now</a>
+                      </div>
+                    </div>
+                  <% } %>
+                  
+            </div>
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+
+    <!-- Featured Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5 pb-3">
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
+                    <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                    <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                    <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
+                    <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Featured End -->
+
+
+   
+
+    <!-- Products Start  form db-->
+
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Latest
+                Mobiles</span></h2>
+        <div class="row px-xl-5">
+
+
+           
+                <% products.forEach((item) => { %>
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                      <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden d-flex align-items-center justify-content-center" style="height: 330px; padding: 10px;">
+                          <img class="img-fluid product-image" src="/uploads/<%= item.images[0] %>" alt="" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                          <div class="product-action">
+                            <a class="btn btn-outline-dark btn-square"  onclick="addToCart('<%=item._id %>','<%=item.stockQuantity %>' )"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="btn btn-outline-dark btn-square"  onclick="addToWishlist(event,'<%= item._id %>')"><i class="far fa-heart"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="/product-view/<%=item._id %>"><i class="fa fa-search"></i></a>
+                          </div>
+                        </div>
+                        <div class="text-center py-4">
+                          <a class="h6 text-decoration-none text-truncate" href=""><%= item.name %></a>
+                          <div class="d-flex align-items-center justify-content-center mt-2">
+                            <h5>&#8377;<%= item.price %></h5>
+                            <h6 class="text-muted ml-2"><del>&#8377;<%= item.mrp %></del></h6>
+                          </div>
+                          <div class="d-flex align-items-center justify-content-center mb-1">
+                            <%= item.offer %>
+                        </div>
+                        <% if(item.stockQuantity == 0){ %>
+                            <div class="d-flex align-items-center justify-content-center mb-1 " style="color:rgb(219, 92, 46)" id="stockQuantity_<%= item._id %>">
+                             product is out of stock
+                            </div>
+                            <% }else if(item.stockQuantity <= 10){ %>
+                        <div class="d-flex align-items-center justify-content-center mb-1 " style="color:rgb(229, 60, 22)" id="stockQuantity_<%= item._id %>" >
+                           only <%= item.stockQuantity %> left in stock
+                        </div>
+                        <% }else{ %>
+                            <div class="d-flex align-items-center justify-content-center mb-1"  id="stockQuantity_<%= item._id %>">  <%= item.stockQuantity %> items left in stock </div>
+                            <% } %>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  <% }); %>
+        </div>
+    </div>
+    <!-- Products End -->
+
+
+    <!-- Offer Start -->
+    <div class="container-fluid pt-5 pb-3">
+        <div class="row px-xl-5">
+            <% for (let i = 0; i < offers.length; i++) { %>
+            <div class="col-md-6">
+                    <div class="product-offer mb-30" style="height: 300px;">
+                      <img class="img-fluid" src="/uploads/offer/<%= offers[i].image %>" alt="">
+                      <div class="offer-text">
+                        <h6 class="text-white text-uppercase"> save above <%= offers[i].percentage %>%</h6>
+                        <h3 class="text-white mb-3"><%= offers[i].name %></h3>
+                        <a href="/offer-view-user?percentage=<%= offers[i].percentage %>&&categoryId=<%= offers[i].category %>&&img=<%= offers[i].image %>" class="btn btn-primary">Shop Now</a>
+                      </div>
+                </div>
+              </div>
+              <% } %>
+              
+              
+          
+        </div>
+    </div>
+    <!-- Offer End -->
+
+
+    <!-- Products Start -->
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Latest
+                Laptops</span></h2>
+        <div class="row px-xl-5">
+
+            <% recentProducts.forEach((item) => { %>
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                  <div class="product-item bg-light mb-4">
+                    <div class="product-img position-relative overflow-hidden d-flex align-items-center justify-content-center" style="height: 330px; padding: 10px;">
+                      <img class="img-fluid product-image" src="/uploads/<%= item.images[0] %>" alt="" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                      <div class="product-action">
+                        <a class="btn btn-outline-dark btn-square"  onclick="addToCart('<%=item._id %>','<%=item.stockQuantity %>' )"><i class="fa fa-shopping-cart"></i></a>
+                        <a class="btn btn-outline-dark btn-square"  onclick="addToWishlist(event,'<%= item._id %>')"><i class="far fa-heart"></i></a>
+                        <a class="btn btn-outline-dark btn-square" href="/product-view/<%=item._id %>"><i class="fa fa-search"></i></a>
+                      </div>
+                    </div>
+                    <div class="text-center py-4">
+                      <a class="h6 text-decoration-none text-truncate" href=""><%= item.name %></a>
+                      <div class="d-flex align-items-center justify-content-center mt-2">
+                        <h5>&#8377;<%= item.price %></h5>
+                        <h6 class="text-muted ml-2"><del>&#8377;<%= item.mrp %></del></h6>
+                      </div>
+                      <div class="d-flex align-items-center justify-content-center mb-1">
+                        <%= item.offer %>
+                    </div>
+                    <% if(item.stockQuantity == 0){ %>
+                        <div class="d-flex align-items-center justify-content-center mb-1 " style="color:rgb(219, 92, 46)" id="stockQuantity_<%= item._id %>">
+                         product is out of stock
+                        </div>
+                        <% }else if(item.stockQuantity <= 10){ %>
+                    <div class="d-flex align-items-center justify-content-center mb-1 " style="color:rgb(229, 60, 22)" id="stockQuantity_<%= item._id %>" >
+                       only <%= item.stockQuantity %> left in stock
+                    </div>
+                    <% }else{ %>
+                        <div class="d-flex align-items-center justify-content-center mb-1"  id="stockQuantity_<%= item._id %>">  <%= item.stockQuantity %> items left in stock </div>
+                        <% } %>
+                    </div>
+                    
+                  </div>
+                </div>
+              <% }); %>
+        </div>
+    </div>
+    <!-- Products End -->
+
+
+    <!-- Vendor Start -->
+    <div class="container-fluid py-5">
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel vendor-carousel">
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=17843&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=wGYgIlqPWdC2&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=32261&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=SVL6mBCwX0nY&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=x1UWRXNij8QS&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=69436&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=50Y6Fy7B7RnJ&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=U6E4adEGbQX2&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=pKl6oyq4IKpu&format=png" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="https://img.icons8.com/?size=512&id=U6E4adEGbQX2&format=png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vendor End -->
+
+

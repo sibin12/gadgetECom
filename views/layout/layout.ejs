@@ -1,0 +1,31 @@
+<% if (locals.other) { %>
+  <%- include('../partials/user-links.ejs') %>
+    <%- include('../partials/user-javascript.ejs') %>
+      <%- body %>
+        <% } else{%>
+          <!DOCTYPE html>
+          <html lang="en">
+
+          <head>
+            <meta charset="utf-8">
+            <title>Gadget-Galaxy</title>
+            <meta content="width=device-width, initial-scale=1.0" name="viewport">
+            <meta content="Free HTML Templates" name="keywords">
+            <meta content="Free HTML Templates" name="description">
+          </head>
+          <% if (locals.admin) { %>
+            <%- include('../partials/admin-links.ejs') %>
+              <%- include('../partials/admin-header.ejs') %>
+                <%- include('../partials/admin-javascript.ejs') %>
+                  <%- body %>
+                    <% }else{ %>
+                      <%- include('../partials/user-links.ejs') %>
+                        <%- include('../partials/user-header.ejs') %>
+                          <%- body %>
+                            <%- include('../partials/user-footer.ejs') %>
+                              <%- include('../partials/user-javascript.ejs') %>
+                                <% } %>
+                                  </body>
+
+          </html>
+          <% } %>

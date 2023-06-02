@@ -1,0 +1,112 @@
+<style>
+.card {
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .table {
+    margin-top: 30px;
+  }
+  
+  .table thead th {
+    text-align: center;
+  }
+  
+  .table tbody td {
+    vertical-align: middle;
+    text-align :center;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  </style>
+
+<section class="container my-5">
+    <div class="row justify-content-center mb-3">
+      <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+          <div class="card-body">
+            <h4 class="mb-4">Add Subcategory</h4>
+            <form id="add-subcategory-form" action="/admin/add-subcategory" method="POST">
+              <div class="mb-3">
+                <label for="category-select" class="form-label">Select Category</label>
+                <select class="form-select" id="categoryDescription" name="category" required>
+                  <option value="" selected disabled> --Select Category-- </option>
+                  <% categories.forEach(element => { %>
+                    <option value="<%= element._id %>"><%= element.categoryName %></option>
+                  <% }) %>
+                </select>
+           
+              </div>
+              <div class="mb-3">
+                <label for="subcategoryName" class="form-label">Subcategory Name</label>
+                <input type="text" class="form-control" id="subcategory" name="subcategory" placeholder="Enter subcategory name " required>
+               <% if(locals.subcategoryErr) {%>
+                <p style="color: red;"><%= subcategoryErr %></p>
+                <% } %>
+            </div>
+              <button type="submit" name="submit" class="btn btn-primary">Add Subcategory</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h2>Subcategory List</h2>
+        <table class="table table-hover">
+
+          <thead>
+            <tr>
+                <th>No.</th>
+              <th>Category Name</th>
+              <th>Subcategory Name</th>
+              <!-- <th>Options</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            
+            <% subcategories.forEach((element,index)=>{ %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= element.category_id.categoryName %></td>
+
+              <td><%= element.sub_category %></td>
+              <!-- <td><button class="btn btn-danger">Delete</button></td> -->
+            </tr>
+            <% }) %>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  
+   <!-- Bootstrap JS -->
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ 
+   <script>
+     // JavaScript for form validation
+     (function() {
+       'use strict';
+       window.addEventListener('load', function() {
+         var forms = document.getElementsByClassName('needs-validation');
+         var validation = Array.prototype.filter.call(forms, function(form) {
+           form.addEventListener('submit', function(event) {
+             if (form.checkValidity() === false) {
+               event.preventDefault();
+               event.stopPropagation();
+             }
+             form.classList.add('was-validated');
+           }, false);
+         });
+       }, false);
+     })();
+   </script>

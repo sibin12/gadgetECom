@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Invoice | My Ecommerce Website</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container mt-5 p-4 bg-light" id="printableArea">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="fw-bold mb-3">Invoice </h2>
+        <% orders.forEach(element=> { %>
+          <div class="shipping-address mb-4">
+            <h4 class="mb-3">Shipping Address:</h4>
+            <p>
+              <%= element.deliveryDetails.firstName +' '+ element.deliveryDetails.lastName %></p>
+            <p><%= element.deliveryDetails.number %></p>
+            <p><%= element.deliveryDetails.streetAddress %></p>
+            <p><%= element.deliveryDetails.appartment %></p>
+            <p><%= element.deliveryDetails.town %></p>
+            <p><%= element.deliveryDetails.state %></p>
+            <p><%= element.deliveryDetails.pin %></p>
+          </div>
+        <% }) %>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end align-items-center">
+        <!-- <img src="/images/cv6.png" class="img-fluid" style="max-width: 100%; height: auto; height: 55px; width:200px" alt="Logo here" /> -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-hover table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Product Name</th>
+              <th scope="col" class="text-right">Quantity</th>
+              <th scope="col" class="text-right">Price</th>
+              <th scope="col" class="text-right">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= product.item.name %></td>
+              <td class="text-right"><%= product.quantity %></td>
+              <td class="text-right">&#8377; <%= product.item.price %></td>
+              <td class="text-right">&#8377; <%= product.item.price * product.quantity %></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="text-end">Subtotal:</td>
+              <td class="text-right">&#8377; <%= product.item.price*product.quantity %></td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end">Shipping:</td>
+              <td class="text-right">Free</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end">Total :</td>
+              <td class="text-right">&#8377; <%= product.item.price*product.quantity%></td>
+           </tr>
+           </tfoot>
+         </table>
+         <button onclick="downloadPDF()" id="exclude">Download Invoice</button>
+      </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+<script>
+        
+
+function downloadPDF() {
+            console.log("downloading ");
+            // Get the sales report section element
+            const salesReportSection = document.getElementById('printableArea');
+            const excludedElement = document.getElementById('exclude');
+            excludedElement.style.display = 'none';
+            // Convert the sales report section HTML to PDF
+            html2pdf()
+                .set({
+                    margin: 10,
+                    filename: 'invoice.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                })
+                .from(salesReportSection)
+                .save()
+                .then(() => {
+      // Restore the visibility of the excluded element
+      excludedElement.style.display = '';
+    });
+        }
+
+</script>
+</body>
+</html>

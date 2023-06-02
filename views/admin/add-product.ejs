@@ -1,0 +1,190 @@
+
+<head>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Toastr CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Bootstrap JS CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="/js/offer.js"></script>
+<style>
+    #toast-container .toast-error {
+  color: red;
+  background-color: rgb(120, 132, 194);
+}
+    .red-error {
+  color: red;
+  font-weight: bold;
+}
+</style>
+
+</head>
+<section>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <form action="/admin/add-product" method="post" enctype="multipart/form-data" id="myForm" onsubmit="return validateForm()">
+                    <h2 class="text-center">Add Product</h2>
+
+                    <label for="name" class="mt-2">Name</label>
+                    <input type="text" class="form-control mt-2" id="name" name="name">
+                    
+                    <label for="name" class="mt-2">Storage</label>
+                    <input type="text" class="form-control mt-2" id="storage" name="storage",>
+                    
+                    
+                    <label for="category" class="form-label mt-2">Category:</label>
+                    <select class="form-select custom-select" id="category" name="category">
+                        <option value="">--Select Category--</option>
+                        <% categories.forEach(category=>{%>
+                        <option value="<%= category._id %>"><%= category.categoryName %></option>
+                        <% })  %>
+                    </select>
+                    <span id="categoryError" style="color:rgb(0, 255, 60);"></span>
+                    
+                    <label for="company" class="form-label mt-2">Company:</label>
+                    <select class="form-select custom-select" id="company" name="company">
+                      <option value="" selected disabled>-- Select Brand --</option>
+                      <% subcategory.forEach(element => { %>
+                        <option value="<%= element._id %>"><%= element.sub_category %></option>
+                      <% }) %>
+                    </select>
+
+                    <label for="name" class="mt-2">MRP:</label>
+                    <input type="number" class="form-control mt-2" id="mrp" name="mrp">
+                    
+                    <label for="price" class="mt-2">Price</label>
+                    <input type="number" class="form-control mt-2" id="price" name="price">
+
+                    <label for="price" class="mt-2">Offer</label>
+
+                    <input type="text" id="offer" name="offer" readonly>
+
+                    <label for="stock" class="mt-2">Stock Quantity:</label>
+                    <input type="number" class="form-control mt-2" id="stockQuantity" name="stockQuantity">
+                    
+                    <label for="description" class="mt-2">Description</label>
+                    <input type="text" class="form-control mt-2"  id="description"  name="description">
+                    
+                    <label for="image" class="mt-2">Image</label>
+                    <input type="file"  id="image" name="image" multiple class="form-control mt-2">
+                    
+
+                    <button type="submit" class="btn btn-success mt-4">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<script>
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('myForm');
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    validateForm();
+  });
+  function validateForm() {
+  const name = document.forms["myForm"]["name"].value;
+  const storage = document.forms["myForm"]["storage"].value;
+  const category = document.forms["myForm"]["category"].value;
+  const company = document.forms["myForm"]["company"].value;
+  const price = document.forms["myForm"]["price"].value;
+  const mrpp = document.forms["myForm"]["mrp"].value;
+  const description = document.forms["myForm"]["description"].value;
+  const image = document.forms["myForm"]["image"].value;
+
+  // Regular expression for validating the price
+  const priceRegex = /^\d+(\.\d{1,2})?$/;
+
+  // Regular expression for validating the image file extension
+  // const imageRegex = /\.(jpg|jpeg|png|gif)$/i;
+
+  // Check if the name input is empty or contains only whitespaces
+  if (!name.trim()) {
+    toastr.error('Please enter a name');
+    return false;
+  }
+  if (!storage.trim()) {
+    toastr.error('Please enter storage value');
+    return false;
+  }
+
+ // Check if the category input is empty
+
+
+ // Check if the category input is empty
+if (category === "") {
+  toastr.error('Please select a category');
+  return false;
+}
+
+
+  // Check if the company input is empty or contains only whitespaces
+  if (company === "") {
+    toastr.error('Please select a company');
+    return false;
+  }
+
+  // Check if the price input is empty or not a valid number
+  if (!priceRegex.test(price)) {
+    toastr.error('Please enter a valid price');
+    return false;
+  }
+
+  if (!priceRegex.test(mrpp)) {
+    toastr.error('Please enter a valid MRP');
+    return false;
+  }
+
+   // Calculate the offer percentage
+   var mrp = $('#mrp').val();
+  var offer = calculateOffer(mrp, price);
+
+  // Update the offer input field
+  $('#offer').val(offer + '%');
+
+  // Check if the description input is empty or contains only whitespaces
+  if (!description.trim()) {
+    toastr.error('Please enter a description');
+    return false;
+  }
+
+  const selectedFiles = document.forms["myForm"]["image"].files;
+            if (image.trim() === "") {
+              toastr.error('Please select  5 images');
+                return false
+            }else if  (selectedFiles.length !== 5) {
+                toastr.error('Please select exactly 5 images');
+                return false;
+            }
+
+  form.submit();
+}
+});
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('#price').on('input', function() {
+        var mrp = $('#mrp').val();
+        var price = $('#price').val();
+        var offer = calculateOffer(mrp, price);
+        $('#offer').val(offer + '%');
+      });
+    });
+  </script>
+  

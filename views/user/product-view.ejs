@@ -1,0 +1,257 @@
+<head>
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+</head>
+
+
+<style>
+	.product-images {
+		display: flex;
+	}
+
+	.small-images {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.large-image {
+		margin-left: 20px;
+		position: relative;
+		overflow: hidden;
+		margin-top: 16px;
+	}
+
+	.large-image img {
+		transition: all 0.3s ease-out;
+	}
+
+	.overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		background-color: rgba(255, 255, 255, 0.5);
+		z-index: 1;
+		opacity: 0;
+		transition: all 0.3s ease-out;
+	}
+
+	.large-image:hover img {
+		transform: scale(1.2);
+	}
+
+	/* Define the black-button class */
+
+
+
+	/* .large-image:hover .overlay {
+		  opacity: 1;
+		} */
+</style>
+
+
+<div class="container-fluid pb-5">
+        <div class="row px-xl-6">
+            
+            <div class="col-lg-1  col-sm-2  d-xs-sm-none " >
+                <div class="small-images pl-3" style="height: 90px;width: 111px;">
+                    <a href="/uploads/<%=singleProduct.images[0]%>" class="MagicZoom small-image"
+                        data-options="zoomWidth:400px; zoomHeight:400px">
+                        <img style="width:90px; height: auto;" src="/uploads/<%=singleProduct.images[0]%>"
+                            alt="Product Image" class="pt-0">
+                    </a>
+                    <a href="/uploads/<%=singleProduct.images[1]%>" class="MagicZoom small-image"
+							data-options="zoomWidth:400px; zoomHeight:400px">
+							<img style="width:90px; height: auto;" src="/uploads/<%=singleProduct.images[1]%>"
+								alt="Product Image" class="pt-2  ">
+						</a>
+						<a href="/uploads/<%=singleProduct.images[2]%>" class="MagicZoom small-image"
+							data-options="zoomWidth:400px; zoomHeight:400px">
+							<img style="width:90px; height: auto;" src="/uploads/<%=singleProduct.images[2]%>"
+								alt="Product Image" class="pt-2 ">
+						</a>
+						<a href="/uploads/<%=singleProduct.images[3]%>" class="MagicZoom small-image"
+							data-options="zoomWidth:400px; zoomHeight:400px">
+							<img style="width:90px; height: auto;" src="/uploads/<%=singleProduct.images[3]%>"
+								alt="Product Image" class="pt-2 ">
+						</a>
+                        <a href="/uploads/<%=singleProduct.images[4]%>" class="MagicZoom small-image"
+							data-options="zoomWidth:400px; zoomHeight:400px">
+							<img style="width:90px; height: auto;" src="/uploads/<%=singleProduct.images[4]%>"
+								alt="Product Image" class="pt-2 ">
+						</a>
+
+                </div>    
+            </div>
+            <div class="col-lg-4  col-sm-10   mb-30">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+                      
+                        <!-- <div class="carousel-item"> -->
+                            <div class="large-image   carousel-item active" style="margin-top: 0px;">
+                                <a href="/uploads/<%=singleProduct.images[0]%>" class="MagicZoom"
+                                    data-options="zoomPosition: inner">
+                                    <img class="w-100 h-100" data-hash="product-1" class="product_big_img"
+                                        src="/uploads/<%=singleProduct.images[0]%>" alt="" id="largeImage">
+                                </a>
+                            </div>
+
+                            <div class="large-image   carousel-item" style="margin-top: 0px;">
+                                <a href="/uploads/<%=singleProduct.images[1]%>" class="MagicZoom"
+                                    data-options="zoomPosition: inner">
+                                    <img class="w-100 h-100" data-hash="product-1" class="product_big_img"
+                                        src="/uploads/<%=singleProduct.images[1]%>" alt="" id="largeImage">
+                                </a>
+                            </div>
+
+                            <div class="large-image   carousel-item" style="margin-top: 0px;">
+                                <a href="/uploads/<%=singleProduct.images[2]%>" class="MagicZoom"
+                                    data-options="zoomPosition: inner">
+                                    <img class="w-100 h-100" data-hash="product-1" class="product_big_img"
+                                        src="/uploads/<%=singleProduct.images[2]%>" alt="" id="largeImage">
+                                </a>
+                            </div>
+                            <div class="large-image   carousel-item" style="margin-top: 0px;">
+                                <a href="/uploads/<%=singleProduct.images[3]%>" class="MagicZoom"
+                                    data-options="zoomPosition: inner">
+                                    <img class="w-100 h-100" data-hash="product-1" class="product_big_img"
+                                        src="/uploads/<%=singleProduct.images[3]%>" alt="" id="largeImage">
+                                </a>
+                            </div>
+                            <div class="large-image   carousel-item" style="margin-top: 0px;">
+                                <a href="/uploads/<%=singleProduct.images[4]%>" class="MagicZoom"
+                                    data-options="zoomPosition: inner">
+                                    <img class="w-100 h-100" data-hash="product-1" class="product_big_img"
+                                        src="/uploads/<%=singleProduct.images[4]%>" alt="" id="largeImage">
+                                </a>
+                            </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-7 h-auto mb-30">
+                <div class="h-100 bg-light p-30">
+                    <h3><%=singleProduct.name %></h3>
+                   
+                    <h3 class="font-weight-semi-bold mb-4">&#8377;<%=singleProduct.price %></h3>
+                   <i><p style="  display: inline-block;font-size:26px;color: rgb(226, 83, 83); " class="font-weight-semi-bold mb-4"><del>&#8377;<%=singleProduct.mrp %>    </del>   </p>   <span style="font-size:28px;color: rgb(64, 198, 251); display: inline-block;">  <%=singleProduct.offer %> off</span></i>  
+                    <p class="mb-4"><%= singleProduct.description %></p>
+                    
+                    <div class="d-flex align-items-center mb-4 pt-2">
+                       
+                        <button class="btn btn-primary px-3" onclick="addToCart('<%=singleProduct._id %>','<%= singleProduct.stockQuantity %>')"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                            Cart</button>
+                    </div>
+                    <!-- <div class="d-flex pt-2">
+                        <strong class="text-dark mr-2">Share on:</strong>
+                        <div class="d-inline-flex">
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a class="text-dark px-2" href="">
+                                <i class="fab fa-pinterest"></i>
+                            </a>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="bg-light p-30">
+                    <div class="nav nav-tabs mb-4">
+                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-pane-1">
+                            <h4 class="mb-3">Product Description</h4>
+
+                            <pre style="font-size: 14px;"><%= singleProduct.description.replace(/\|/g, '\n') %></pre>
+                        </div>
+                        
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Shop Detail End -->
+
+
+    <!-- Products Start -->
+    <div class="container-fluid py-5">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel related-carousel">
+                     <% products.forEach((item)=>{ %>
+                    <div class="product-item bg-light">
+                        <div class="product-img position-relative overflow-hidden d-flex align-items-center justify-content-center" style="height: 330px; padding: 10px;">
+                            <img class="img-fluid w-100" src="/uploads/<%=item.images[0] %>" alt="">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square"  onclick="addToCart('<%=item._id %>','<%= item.stockQuantity %>')"><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square"  onclick="addToWishlist(event,'<%= item._id %>')"><i class="far fa-heart"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="/product-view/<%=item._id %>"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href=""><%= item.name %></a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5><%= item.price %></h5><h6 class="text-muted ml-2"><del><%= item.mrp %></del></h6>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1" style="color: rgb(4, 41, 252);">
+                                <%= item.offer %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Products End -->
+
+    <script>
+        const smallImages = document.querySelectorAll('.small-images img');
+        const largeImage = document.querySelector('.large-image img');
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        largeImage.parentElement.appendChild(overlay);
+        smallImages.forEach((img, index) => {
+            img.addEventListener('mouseover', () => {
+                const imgSrc = img.getAttribute('src');
+                largeImage.setAttribute('src', imgSrc);
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            var smallImages = document.getElementsByClassName('small-image');
+            for (var i = 0; i < smallImages.length; i++) {
+                smallImages[i].addEventListener('click', function () {
+                    var imgSrc = this.getAttribute('data-imgsrc');
+                    var largeImage = document.getElementById('largeImage');
+                    largeImage.src = imgSrc;
+                    new MagicZoom(largeImage);
+                });
+            }
+        });
+    </script>

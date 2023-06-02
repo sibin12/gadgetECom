@@ -1,0 +1,111 @@
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="/login/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/login/css/style.css">
+
+<section class="sign-in " id="myElement" style="margin-top: 50px;">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="/img/signin-image.jpg" alt="sing up image"></figure>
+                <!-- <a href="/signup" class="signup-image-link">Create an account</a> -->
+            </div>
+
+            <div class="signin-form">
+                <h2 class="form-title">Admin Sign in</h2>
+                <form action="/admin/adminLogin" method="post" class="register-form" id="login-form">
+                    <div class="form-group">
+                        <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="email" id="your_name" placeholder="Your email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="password" id="your_pass" placeholder="******" />
+                    </div>
+                 
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                    </div>
+
+                    <% if (locals.login) { %>
+                        <p class="error" style="color: red;"><%=login %></p>
+                        <% } %>
+                    <!-- <div class="form-group">
+                        <a href="/forgotpassword"><label for="remember-me" class="label-agree-term"><span><span></span></span>forgot password</label></a>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+ 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+           $.validator.addMethod(
+             "noSpecialChars",
+             function (value, element) {
+               return this.optional(element) || /^(?!\s)[a-zA-Z ]+$/.test(value);
+             },
+             "Special characters and spaces are not allowed"
+           );
+           $.validator.addMethod(
+             "email",
+             function (value, element) {
+               return (
+                 this.optional(element) ||
+                 /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(
+                   value
+                 )
+               );
+             },
+             "Special characters and spaces are not allowed"
+           );
+     
+           $("#login-form").validate({
+             rules: {
+               email: {
+                 required: true,
+                 email: true,
+               },
+               password: {
+                 required: true,
+                 minlength: 4,
+               },
+           
+             },
+             messages: {
+               email: {
+                 required: "Please enter your email address",
+                 email: "Please enter a valid email address",
+               },
+               password: {
+                 required: "Please enter a password",
+                 minlength: "Your password must be at least 4 characters long",
+               },
+             },
+             highlight: function (element) {
+               $(element).closest(".form-control").addClass("is-invalid");
+             },
+             unhighlight: function (element) {
+               $(element).closest(".form-control").removeClass("is-invalid");
+             },
+             errorElement: "div",
+             errorClass: "invalid-feedback",
+             errorPlacement: function (error, element) {
+               if (element.parent(".input-group").length) {
+                 error.insertAfter(element.parent());
+               } else {
+                 error.insertAfter(element);
+               }
+             },
+           });
+         });
+   </script>
+   

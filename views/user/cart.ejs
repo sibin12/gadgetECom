@@ -1,0 +1,322 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+<style>
+.cart-empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.cart-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.cart-empty-text {
+  text-align: center;
+}
+
+.cart-empty-text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.cart-empty-text p {
+  font-size: 1.2rem;
+  color: #999;
+}
+
+
+</style>
+
+
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 table-responsive mb-5">
+            <table class="table table-light table-borderless table-hover text-center mb-0">
+                <% if (locals.cartItems.length>0) {%>
+                <thead class="thead-dark">
+                    <tr>
+                        <th></th>
+                        <th>Products</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                
+                    <% locals.cartItems.forEach(item=>{ %>
+                        <tr>
+                            <td class="align-middle"><img src="/uploads/<%=item.productInfo.images[0] %>" alt=""
+                                    style="width: 50px;"> </td>
+                            <td class="align-middle">
+                                <%=item.productInfo.name %>
+                            </td>
+                            <td class="align-middle">
+                                <%=item.productInfo.price %>
+                            </td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary decrement-button" style="z-index: 1;" id="proId" data-target="<%=item.productInfo._id%>" onclick="changeQuantity('<%=item._id%>','<%=item.productInfo._id%>',-1,'<%= item.productInfo.stockQuantity %>')">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- <input type="text"
+                                        class="form-control form-control-sm bg-secondary border-0 text-center"> -->
+                                         <b  class="form-control form-control-sm bg-secondary border-0 text-center value" id="<%=item.productInfo._id%>">    
+                                         <%=item.quantity %>
+                                         </b>
+                                    <div class="input-group-btn">
+                                        <button style="z-index: 1;" class="btn btn-sm btn-primary increment-button btn-plus  <%=item.productInfo._id%>" id="proId" data-target="<%=item.productInfo._id%>" onclick="changeQuantity('<%=item._id%>','<%=item.productInfo._id%>',1,'<%= item.productInfo.stockQuantity %>')">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="align-middle" id="subtotal">
+                                <%=item.productInfo.price * item.quantity %>
+                            </td>
+
+                            <td class="align-middle"><button class="btn btn-sm btn-danger"
+                                    onclick="removeItem('<%=item._id%>','<%=item.productInfo._id%>','<%= item.productInfo.stockQuantity %>')"><i
+                                        class="fa fa-times"></i></button></td>
+                        </tr>
+                        <% }) %>
+                        <% }else{ %>
+                            <div class="cart-empty-container ">
+                                <div class="cart-empty-icon">
+                                  <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <div class="cart-empty-text">
+                                  <h2>Your cart is empty</h2>
+                                  <p>Start shopping now and add items to your cart</p>
+                                </div>
+                              </div>
+                              
+                            <% } %>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+           
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart
+                    Summary</span></h5>
+            <div class="bg-light p-30 mb-5">
+               <div class="border-bottom pb-2">
+  <div class="d-flex justify-content-between mb-3">
+    <h6>Subtotal</h6>
+    <% if (locals.total && locals.total.length > 0 && locals.total[0].totalMrp) { %>
+      <h6 id="totalMrp"><%= total[0].totalMrp %></h6>
+    <% } else { %>
+      <h6 id="totalMrp">0</h6>
+    <% } %>
+  </div>
+  <div class="d-flex justify-content-between mb-3">
+    <h6>Discount</h6>
+    <% if (locals.total && locals.total.length > 0 && locals.total[0].totalPrice && locals.total[0].totalMrp) { %>
+      <h6 id="discount"><%= total[0].totalPrice - total[0].totalMrp %></h6>
+    <% } else { %>
+      <h6 id="discount">0</h6>
+    <% } %>
+  </div>
+ 
+  <div class="d-flex justify-content-between ">
+    <h6 class="font-weight-medium">Shipping</h6>
+    <h6 class="font-weight-medium">Free</h6>
+  </div>
+  
+</div>
+<div class="pt-2">
+  <div class="d-flex justify-content-between mt-2">
+    <h5>Total</h5>
+    <% if(locals.total && locals.total.length>0){ %>
+      <h5 id="subtotalAmount"><%=total[0].totalPrice %></h5>
+    <% }else{ %>
+      <h5 id="subtotalAmount">0</h5>
+    <% } %>
+  </div>
+  <% if (locals.cartItems && locals.cartItems.length>0) {%>
+    <a href="/checkout">
+      <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+    </a>
+  <% }else{ %>
+    <a href="/index">
+      <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Add To Cart</button>
+    </a>
+  <% } %>
+</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include SweetAlert2 library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+<script>
+
+    function changeQuantity(cartId ,proId,count,stock,userId){
+
+        
+        // console.log('button clickedddddddddddddddrrrrrrrrrrrrrrrrrrr')
+        console.log(cartId)
+        console.log(proId,"product iddddd")
+        console.log(count,"countttt")
+        // userId = req.session.user._id
+        console.log(userId,"userIdddd")
+        console.log(stock,"stockkkkkkk")
+        let quantity = parseInt(document.getElementById(proId).innerHTML);
+        console.log(quantity)
+
+        count = parseInt(count)
+
+        if(count == 1 && stock == 0){
+          Swal.fire({
+                        title:'Stock quantity exceeds ',
+                        text:"stock quantity exceeds the limits",
+                        icon: 'info',
+                    })
+                    return;
+        }
+
+        if(quantity ===1 &&count ===-1){
+            Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this data!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel'
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    updateQuantity(cartId,proId,count,quantity,stock,userId)
+                }
+            })
+        }else{
+            updateQuantity(cartId,proId,count,quantity,stock,userId)
+        }
+    }
+
+    function updateQuantity(cartId ,proId,count,quantity,stock,userId){
+     
+        console.log("helloo updateqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
+        console.log(userId);
+        
+        $.ajax({
+            url:'/changeProductQuantity',
+            data:{
+                cart: cartId,
+                product:proId,
+                count:count,
+                quantity:quantity,
+                stock :stock,
+                userId:userId,
+            },
+            method:'post',
+            success: (response) =>{
+                console.log("response fffff")
+                var subtotalAmounts = response.subtotalAmounts;
+                // console.log(subtotalAmount,"subtotalamoutn")
+                var subtotal = response.subtotal
+           
+                document.getElementById("totalMrp").innerHTML = response.total[0].totalMrp     //id name is "total" and dont use 'total'  ''&""is different 
+
+                document.getElementById("subtotalAmount").innerHTML = response.subtotalAmounts
+                document.getElementById("discount").innerHTML = response.total[0].totalPrice - response.total[0].totalMrp
+                document.getElementById( proId).innerHTML = response.quantity;
+                Swal.fire({
+                      title: 'Success',
+                      icon: 'success',
+                  });
+                if (response.removeProduct) {
+                    console.log('into the swal')
+                    Swal.fire({
+                        title:'Product Removed',
+                        text:"product removed from the cart",
+                        icon: 'success',
+                       
+                        confirmButtonText:"confirm",
+                    }).then((result)=>{
+                        if(result.isConfirmed){
+                            location.reload();
+                        }
+                    });
+                } else {
+                    console.log("only add or remove 1")
+                    document.getElementById("totalMrp").innerHTML = response.total[0].totalMrp     //id name is "total" and dont use 'total'  ''&""is different 
+
+                document.getElementById("subtotalAmount").innerHTML = response.subtotalAmounts
+                document.getElementById("discount").innerHTML = response.total[0].totalPrice - response.total[0].totalMrp
+                document.getElementById( proId).innerHTML = response.quantity;
+                Swal.fire({
+                      title: 'Success',
+                      icon: 'success',
+                  });
+                 location.reload();
+                    // document.getElementById(proId).innerHTML = quantity + count;
+                }
+                
+            }
+        })
+    }
+    
+
+    function removeItem(cartId, proId,stock) {
+      let quantity = parseInt(document.getElementById(proId).innerHTML);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this data!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+               $.ajax({
+                url:'/removeItem',
+                data:{
+                    cart:cartId,
+                    product:proId,
+                    quantity:quantity,
+                    stock:stock,
+                    confirmResult:true
+                },
+                method:"post",
+                success:(response)=>{
+                    Swal.fire({
+                        title:"success",
+                        text:"product removed",
+                        icon:"success"
+                    }).then(()=>{
+                        location.reload();
+                    })
+                }
+               })
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // User cancelled, do nothing
+            }
+        });
+
+    }
+
+  
+</script>
+
+
+
+
+
+

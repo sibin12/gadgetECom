@@ -1,0 +1,164 @@
+
+	<style>
+		/* CSS styles for table */
+		table {
+		  font-family: Arial, sans-serif;
+		  border-collapse: collapse;
+		  width: 100%;
+		}
+
+		td, th {
+		  border: 1px solid #dddddd;
+		  text-align: left;
+		  padding: 8px;
+		}
+
+		/* tr:nth-child(even) {
+		  background-color: #dddddd;
+		} */
+
+		/* CSS styles for page header */
+		header {
+			background-color: #5078b6;
+			color: white;
+			padding: 10px;
+			text-align: center;
+			font-size: 24px;
+			margin-bottom: 20px;
+			margin-top: 20px;
+		}
+
+		/* CSS styles for page container */
+		.container {
+			width: 80%;
+			margin: 0 auto;
+		}
+	</style>
+
+<body>
+	<header>
+		<h1>Admin Orders View</h1>
+	</header>
+	<div class="container-fluid">
+        <div class="table-responsive">
+            <table  id="myTable">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Order Date</th>
+                        <th>Customer Name</th>
+                        <th>Address</th>
+                        <th>Number</th>
+                        
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Payment Status</th>
+                        <th>Payment</th>
+
+
+                        <th>Order status</th>
+                        <th>delivery status</th>
+                        <!-- <th>Actions</th> -->
+                        <!-- <th></th> -->
+                    </tr>
+                </thead>
+                <tbody>
+              <% locals.orders.reverse().forEach((order,index)=>{ %>
+                <% order.products.forEach(product=>{  %>
+                    <tr>
+                        <td data-label="Order"><%= index+1 %></td>
+                        <td data-label="Order Date"><%=order.createdAt.toDateString() %></td>
+                        <td data-label="Customer Name"><%= order.deliveryDetails.firstName+" "+ order.deliveryDetails.lastName %></td>
+                        <td data-label="Address"><%= order.deliveryDetails.streetAddress %>, <%= order.deliveryDetails.pin %>, <%= order.deliveryDetails.town %>
+                        <%= order.deliveryDetails.state %></td>
+                        <td data-label="Number"><%= order.deliveryDetails.number %></td>
+
+                        
+                   
+                        <td data-label="Quantity"><%= product.quantity %></td>
+                        <!-- <td data-label="Quantity"><%#= product.quantity  %></td> -->
+                        <!-- <td data-label="Amount"><%= product.item.price * product.quantity%></td> -->
+                        <td data-label="Amount"><%= order.totalAmount%></td>
+                        <td data-label="Payment"><%= order.paymentMethod  %></td>
+                        <td data-label="Status"><%= order.paymentstatus %></td>
+                       
+                        <form action="/admin/delivery-status/?orderId=<%= order._id %>&productId=<%= product.item._id %>" method="post">
+                            <td>
+                                <select name="deliveryStatus" <%= (product.orderstatus === 'cancelled' || product.orderstatus === 'returned'  || order.paymentstatus === 'failed' || product.orderstatus == 'return approved'  || product.orderstatus == 'return rejected') ? 'disabled' : '' %>>
+                                    <option value=""><%=product.deliverystatus %></option>
+                                    <option value="shipped">shipped</option>
+                                    <option value="delivered">delivered</option>
+                                    <option value="cancelled">cancelled</option>
+                                    <option value="returned">returned</option>
+                                </select>
+                            </td>
+                            <% if(product.orderstatus == 'returned' ){ %>
+                                <td>      
+                                    <button type="submit" class="btn" style="background-color: greenyellow;"  onclick="approveReturn('<%= order._id %>', '<%= product.item._id %>')">Approve</button>
+                                
+                                    <button type="submit" class="btn" style="background-color: rgb(255, 108, 108); align-items: center;margin-top: 7px;" onclick="rejectReturn('<%= order._id %>', '<%= product.item._id %>')">Reject</button>
+                                </td>
+                              <% }else{ %>  
+
+                            <td>
+                                <button type="submit" class="btn" <%=product.orderstatus==='return approved' ? 'hidden' : '' %> <%=product.orderstatus==='return rejected' ? 'hidden' : '' %>  style="background-color: greenyellow;">Approve</button>
+                            </td>
+                            <% } %>
+                        </form>
+                        
+                    </tr>
+                    <% }) %>
+                   <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</body>
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+<script>
+let table = new DataTable('#myTable')
+</script>
+<script>
+    // Function to approve return
+function approveReturn(orderId, productId) {
+  $.ajax({
+    url: '/admin/approve-return',
+    method: 'POST',
+    data: { orderId, productId },
+    success: function (response) {
+      // Handle success response
+      console.log(response);
+    },
+    error: function (error) {
+      // Handle error response
+      console.error(error);
+    }
+  });
+}
+
+// Function to reject return
+function rejectReturn(orderId, productId) {
+  $.ajax({
+    url: '/admin/reject-return',
+    method: 'POST',
+    data: { orderId, productId },
+    success: function (response) {
+        if(response.success == true){
+            console.log(response.returnStatus,"returned")
+            // document.getElementById('rejeced').innerHTML = "rejected"
+        }
+      // Handle success response
+      console.log(response);
+    },
+    error: function (error) {
+      // Handle error response
+      console.error(error);
+    }
+  });
+}
+
+</script>
+

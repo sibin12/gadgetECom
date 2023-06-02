@@ -1,0 +1,34 @@
+<div class="col-sm-12 col-xl-12">
+    <a href="/admin/add-banner" class="btn btn-info ms-5 mb-3 mt-5">Add Banner</a>
+    <div class="bg-light rounded p-4">
+      <h6 class="mb-4">Banners</h6>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Banner Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% banner.forEach((item, index) => { %>
+          <tr>
+            <th scope="row"><%= index + 1 %></th>
+            <td>
+              <img class="banner-image" style="width: 70px;height: auto;" src="/uploads/banner/<%= item.image %>">
+            </td>
+            <td><%= item.name %></td>
+            <td><%= item.description %></td>
+            <td>
+              <a href="/admin/edit-banner/<%= item._id %>" class="btn btn-success btn-sm">Edit</a>
+              <a href="/admin/delete-banner/<%= item._id %>" class="btn btn-danger btn-sm"  onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

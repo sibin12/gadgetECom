@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Category List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .category-card {
+            margin-bottom: 20px;
+        }
+
+        .category-card .card-body {
+            display: flex;
+            align-items: center;
+        }
+
+        .category-card .card-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+            padding-left: 10px;
+        }
+
+        .category-card .edit-btn,
+        .category-card .delete-btn {
+            margin-left: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="container my-5">
+        <div class="row justify-content-center mb-3">
+        </div>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-body">
+                            <h4 class="mb-4">Add Category</h4>
+                            <form   id="add-category-form" action="/admin/add-category" method="POST">
+                                <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Category Name</label>
+                                    <input type="text" class="form-control" id="categoryName" name="categoryName"
+                                        placeholder="Enter category name" required>
+                                </div>
+                                <% if(categoryErr){ %>
+                                    <span style="color: red;">
+                                        <%=categoryErr %>
+                                    </span>
+                                    <% } %>
+
+                                        <button type="submit" onsubmit="addCategory()" name="submit"
+                                            class="btn btn-primary">Add Category</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <h2>Category List</h2>
+                    <hr>
+                    <% if(categories.length> 0) { %>
+                        <% categories.forEach(function(category) { %>
+                            <div class="category-card card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= category.categoryName %>
+                                    </h5>
+                                    <a href="/admin/delete-category/<%= category.id %>"
+                                        class="edit-btn btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Are you sure you want to delete this <%= category.categoryName%> Category?')">Delete</a>
+                                    <!-- <a href="#" class="delete-btn btn btn-sm btn-outline-danger">Delete</a> -->
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <p>No categories found.</p>
+                                    <% } %>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+    
+        // function addCategory(categoryName) {
+        //     $ajax({
+        //         url: '/admin/add-category',                         //
+        //         data: {
+        //             categoryName: categoryName
+        //         },
+        //         method: 'post',
+        //         success: (response) => {
+
+        //             console.log(req.session.categoryErr)
+        //             console.log(response.categoryData);
+        //         }
+        //     })
+        // }
+
+    </script>
+</body>
+
+</html>

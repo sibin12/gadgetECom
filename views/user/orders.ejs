@@ -1,0 +1,246 @@
+
+    <style>
+      body {
+        background-color: #cadee3;
+      }
+
+      h2 {
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        background-color: #fff;
+        border: 2px solid #d7dd24;
+      }
+
+      table thead {
+        width: auto;
+        background-color: #fffafa;
+      }
+
+      table th,
+      table td {
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #dfdfdf;
+      }
+
+      table th {
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .product-image {
+        max-width: 100px;
+        height: auto;
+        margin-right: 20px;
+      }
+
+      .product-name {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .product-price,
+      .product-quantity,
+      .product-total {
+        font-size: 16px;
+        font-weight: 400;
+      }
+
+      .order-status {
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .order-actions {
+        margin-top: 30px;
+      }
+
+      .order-cancel {
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .order-cancel:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+    
+  <div class="container-fluid">
+    <h2>Order Details</h2>
+    <div class="row col-lg-12">
+      <div class="col-md-12">
+        <table class="table-responsive  ">
+          <thead>
+            <% if (orders && orders.length > 0) { %>
+            
+            <%orders.reverse().forEach(item=>{ %>
+            <tr style="border-color: yellow;">   <th colspan="2">Address</th>
+       
+               <td  ><ul><li>
+                <%= item.deliveryDetails.firstName + " " + item.deliveryDetails.lastName  %> 
+               </li>
+               <li>
+                <%= item.deliveryDetails.streetAddress  +" , "+ item.deliveryDetails.appartment %>   
+               </li>
+              
+            <!-- </td> -->
+            <li>
+              <%= item.deliveryDetails.town + " ,  " +  item.deliveryDetails.pin  %> 
+             </li>
+             </ul></td>
+             <td><ul>
+             <li>
+              <%= item.deliveryDetails.state  +" , "+ item.deliveryDetails.district %>   
+             </li>
+            
+          
+          <li>
+            <%= item.deliveryDetails.number + " ,  "  %> 
+           </li>
+           <li>
+            <%= item.deliveryDetails.email  +" , " %>   
+           </li>
+          </ul>
+        </td>
+        <td><%= new Date(item.createdAt).toLocaleString('en-US', { month: 'short' , day: 'numeric' ,
+          year: 'numeric' , hour12: true }) %></td>
+                
+            
+            </tr>
+            <tr>
+              <th>Product</th>
+              <th>Product Name</th>
+             
+              <th>Quantity</th>
+              <th>Total</th>
+              <th>Order Status</th>
+              <th>Action</th>
+
+            </tr>
+           
+          </thead>
+          <tbody>
+         
+            <% item.products.forEach((product) => { %>
+            <tr>
+              <td>
+                <img
+                  src="/uploads/<%= product.item.images[0] %>"
+                  alt="Product Image"
+                  class="product-image"
+                />
+              </td>
+              <td class="product-name"><%= product.item.name %></td>
+              <td class="product-quantity"><%= product.quantity %></td>
+              <!-- <td class="product-total"><%#= product.item.price * product.quantity %></td> -->
+              <td class="product-total"><%= item.totalAmount %></td>
+              <!-- <% console.log(item.deliverystatus,"   pppppppppppppppppppppppppppppppp"); %> -->
+
+              <td class="product-name"><%=product.orderstatus %></td>
+              
+              <td class="actions">
+                
+                <div class="d-flex flex-column mt-4">
+                  <% if (product.deliverystatus !=='returned' ) { %>
+                    <button class="btn btn-outline-info btn-sm" <%=product.orderstatus==='cancelled' ? 'hidden' : ''%>  <%=product.orderstatus==='return approved' ? 'hidden' : '' %>
+                      type="button" onclick="location.href='/invoice/?orderId=<%= item._id %>&productId=<%= product.item._id %>'">Invoice</button>
+
+                    <% if (product.deliverystatus==='delivered' ) { %>
+                      <button class="btn btn-danger btn-sm mt-2"
+                        onclick="returnOrder('<%= item._id %>','<%= product.item._id %>')" type="button">Return order
+                      </button>
+                </div>
+                <% } else{ %>
+                  <button class="btn btn-danger btn-sm mt-2" <%=product.orderstatus==='cancelled' ? 'hidden' : '' %> <%=product.orderstatus==='return rejected' ? 'hidden' : '' %>
+                    <%=product.orderstatus==='return approved' ? 'hidden' : '' %>
+                    onclick="cancelOrder('<%= item._id %>','<%= product.item._id %>')" type="button" >Cancel order
+                  </button>
+              </div>
+              <% } %>
+              <% } %>
+              </td>
+            </tr>
+           
+            <% }) %>
+     
+            <tr><td></td></tr>
+            <tr><td></td></tr>
+            <tr><td></td></tr>
+            <% }) %>
+
+            <% } else { %>
+              <p>No orders found.</p>
+            <% } %>
+           
+          </tbody>
+          
+        </table>
+        
+          <div class="order-actions ">
+            <a class="btn  btn-primary" href="/index">back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+     function cancelOrder(orderId,productId){
+     
+      Swal.fire({
+  title: 'Confirmation',
+  text: 'Do you want to cancel the order.',
+  icon: 'info',
+  showCancelButton: true,
+  confirmButtonText: 'Yes, cancel it!',
+  cancelButtonText: 'No, keep it'
+}).then((result) => {
+  if (result.isConfirmed) {
+    console.log('cancel order');
+    console.log(orderId,"orderId");
+      console.log(productId,"pppppppp");
+    location.href = `/cancel-order/?orderId=${orderId}&productId=${productId}`;
+  }
+})
+
+  }
+
+  function returnOrder(orderId, productId) {
+    Swal.fire({
+  title: 'Confirmation',
+  text: 'Do you want to return the order.',
+  icon: 'info',
+  showCancelButton: true,
+  confirmButtonText: 'Yes, retrun it!',
+  cancelButtonText: 'No, keep it'
+}).then((result) => {
+  if (result.isConfirmed) {
+          location.href = `/return-order/?orderId=${orderId}&productId=${productId}`;
+        }
+      });
+  }
+</script>
+

@@ -1,0 +1,257 @@
+<% if(cartCount > 0){ %>
+
+<div class="row justify-content-end col-md-12 text-right mb-3">
+  <div class="col-md-12">
+    <a href="/checkout"><button class="btn btn-primary" id="#">Back to Checkout</button></a>
+  </div>
+</div>
+<% } %>
+<div class="row justify-content-end col-md-12 text-right mb-3">
+    <div class="col-md-12">
+        <button class="btn btn-primary" id="add-new-address">Add New Address</button>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Add
+                    Address</span></h5>
+            <form action="" id="checkout-form" name="myForm" method="post" class="bg-light p-30 mb-5 mx-auto">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+
+                        <input class="form-control" type="text" placeholder="first name " id="fname" name="firstname" required >
+                        <span id="firstname-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="last name " id="lname" name="lastname" required>
+                        <span id="lastname-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="enter your e-mail"  id="email" name="email" required>
+                        <span id="email-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="mobile number" id="number" name="mobile" required>
+                        <span id="number-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="Street address" id="address" name="address" required>
+                        <span id="address-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="appartment" id="appartment" name="appartment" required>
+                        <span id="appartment-error" style="color: red;"></span>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="Town" id="town" name="town" required>
+                        <span id="town-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="District" id="district" name="district" required>
+                        <span id="district-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="State" id="state" name="state" required>
+                        <span id="state-error" style="color: red;"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input class="form-control" type="text" placeholder="PIN "  id="pin" name="pin" required>
+                        <span id="pin-error" style="color: red;"></span>
+                    </div>
+                    <div class="row justify-content-end col-md-12 text-right mb-3">
+                        <div class="col-md-12">
+                            <button class="btn btn-secondary mr-2" id="cancel-button">Cancel</button>
+                            <button class="btn btn-primary" id="save-button">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container-fluid" id="address-list">
+        <div class="row">
+          <%# if(address.lenght > 0) {%>
+          <% for (let i=address.length-1; i >=0 ; i--) { %>
+            <div class="col-sm-12 col-md-8 offset-md-2">
+              <div class="card mx-auto w-100 card-hover-shadow mb-4" style="max-width: 100% !important;">
+      
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h5 class="card-title mb-1">
+                        <%= `${address[i].firstName} ${address[i].lastName}` %>
+                      </h5>
+                      <p class="card-text mb-1">
+                        <%= address[i].streetAddress %>
+                      </p>
+                      <p class="card-text mb-1">
+                        <%= address[i].appartment %>
+                      </p>
+                      <p class="card-text mb-1">
+                        <%= address[i].state %>
+                      </p>
+                      <p class="card-text mb-1">
+                        <%= address[i].district %>
+                      </p>
+                      <p class="card-text mb-1">
+                        <%= address[i].town %>
+                      </p>
+                      <p class="card-text mb-0">
+                        <%= address[i].pin %>
+                      </p>
+                      <p class="card-text mt-1 mb-0">Phone: +91 <%= address[i].number %>
+                      </p>
+                    </div>
+                    <div class="col-md-4 text-md-right">
+                      <a href="/editAddress/<%= address[i]._id %>" class="btn btn-link btn-lg">Edit</a>
+                      <a href="#" class="btn btn-link btn-lg text-danger"
+                        onclick="deleteAddress('<%= address[i]._id %>')">Delete</a>
+      
+                    </div>
+                  </div>
+                </div>
+      
+              </div>
+            </div>
+            <% } %>
+            <%# } %>
+        </div>
+      </div>
+
+
+      
+
+      <!-- JavaScript code -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Hide the form initially
+    $("#checkout-form").hide();
+
+    // Show the form when clicking "Add New Address" button
+    $("#add-new-address").on("click", function () {
+      $("#checkout-form").show();
+    });
+    // Hide the "SAVED YOUR ADDRESSES" message when clicking "Add New Address" button
+    $("#add-new-address").on("click", function () {
+      $("#checkout-form").show();
+    });
+  });
+  $("#checkout-form").submit((e) => {
+    e.preventDefault();
+    $.ajax({
+      url: '/add-address',
+      method: 'post',
+      data: $('#checkout-form').serialize(),
+      success: (response) => {
+        if(response.success){
+          console.log(response.address[0],"addressssdata")
+         
+        // Create a new card element and populate it with the response data
+          for(i=0;i<response.address.length;i++){
+        var newCard = '<div class="col-sm-12 col-md-8 offset-md-2">' +
+          '<div class="card mx-auto w-100 card-hover-shadow mb-4" style="max-width: 100% !important;">' +
+          '<div class="card-body">' +
+          '<div class="row">' +
+          '<div class="col-md-8">' +
+          '<h5 class="card-title mb-1">' + response.address[i].firstName + ' ' + response.address[i].lastName + '</h5>' +
+          '<p class="card-text mb-1">' + response.address[i].streetAddress + '</p>' +
+          '<p class="card-text mb-1">' + response.address[i].appartment + '</p>' +
+          '<p class="card-text mb-1">' + response.address[i].state + '</p>' +
+          '<p class="card-text mb-1">' + response.address[i].district + '</p>' +
+          '<p class="card-text mb-1">' + response.address[i].town + '</p>' +
+          '<p class="card-text mb-0">' + response.address[i].pin + '</p>' +
+          '<p class="card-text mt-1 mb-0">Phone: +91 ' + response.address[i].number + '</p>' +
+          '</div>' +
+          '<div class="col-md-4 text-md-right">' +
+          '<a href="#" class="btn btn-link btn-lg">Edit</a>' +
+          '<a href="#" class="btn btn-link btn-lg text-danger">Delete</a>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+          }
+        // Append the new card element to the address list container
+        $('#address-list').append(newCard);
+        Swal.fire({
+          title: "Success!",
+          text: "Address added successfully!",
+          icon: "success",
+        //   confirmButtonColor: "#3085d6",
+        //   confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Reload the page after the alert is dismissed
+            // window.location.reload();
+          }
+        });
+
+      }
+      }
+    });
+  });
+  $("#cancel-button").click((e) => {
+    e.preventDefault();
+    $("#checkout-form")[0].reset();
+  });
+
+  // Get the form and the add new address button
+  const form = document.querySelector('#checkout-form');
+  const addNewAddressButton = document.querySelector('#add-new-address');
+
+  // Hide the form by default
+  form.style.display = 'none';
+
+  // Show the form when the add new address button is clicked
+  addNewAddressButton.addEventListener('click', () => {
+    form.style.display = 'block';
+  });
+
+  // Hide the form when the user clicks outside of it
+  document.addEventListener('click', (event) => {
+    const isClickedInsideForm = form.contains(event.target);
+    const isClickedOnAddNewAddressButton = event.target === addNewAddressButton;
+
+    if (!isClickedInsideForm && !isClickedOnAddNewAddressButton) {
+      form.style.display = 'none';
+    }
+  });
+
+  function deleteAddress(addressId) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      buttons: ["Cancel", "Delete"],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          // Send an AJAX request to the server to delete the address
+          $.ajax({
+            url: `/deleteAddress/${addressId}`,
+            type: "DELETE",
+            success: function (result) {
+              // Refresh the page to show the updated list of addresses
+              location.reload();
+            },
+            error: function (error) {
+              console.log(error);
+              alert("Failed to delete address. Please try again later.");
+            }
+          });
+        }
+      });
+  }
+</script>
+
+
+
+

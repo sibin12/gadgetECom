@@ -1,0 +1,73 @@
+<style>
+    .order-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    
+    .order-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .order-text {
+      text-align: center;
+    }
+    
+    .order-text h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .order-text p {
+      font-size: 1.2rem;
+      color: #999;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .button {
+      margin: 0 1rem;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 3px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .button:hover {
+      background-color: #0069d9;
+    }
+    
+    </style>
+    
+    
+    <div class="container-fluid ">
+        <div class="row px-xl-5">
+            <div class="col-lg-12 table-responsive mb-5 ">
+                <div class="order-container">
+                  <div class="order-icon">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                  <div class="order-text">
+                    <h2>Thank you for your order!</h2>
+                    <p>Your order has been successfully placed and will be delivered to you shortly.</p>
+                  </div>
+                  <div class="button-container">
+                    <button class="button" > <a href="/orders"> View Order Details </a></button>
+                    <button class="button"> <a href="/index"> Continue Shopping </a></button>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
