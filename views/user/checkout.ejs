@@ -23,6 +23,19 @@
     .square-checkbox .custom-control-label::before {
         border-radius: 0.25rem;
     }
+
+   
+  .coupons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .coupon-card {
+    flex: 0 0 calc(50% - 10px); /* Adjust the width as needed */
+    margin-bottom: 15px; /* Adjust the margin as needed */
+  }
+
 </style>
 <div class="container-fluid">
     <form action="#" id="checkout-form">
@@ -51,14 +64,14 @@
                                     <%=item.productInfo.name %>
                                 </td>
                                 <td class="align-middle">
-                                    <%=item.productInfo.price %>
+                                    &#x20B9;<%=item.productInfo.price %>
                                 </td>
                                 <td class="align-middle">
                                     <%= item.quantity %>
                                 </td>
 
                                 <td class="align-middle" id="subtotal">
-                                    <%=item.productInfo.price * item.quantity %>
+                                    &#x20B9;<%=item.productInfo.price * item.quantity %>
                                 </td>
 
                                 <!-- <td class="align-middle">jhvkhv</td> -->
@@ -151,19 +164,20 @@
                 <!-- Assuming you have an array of coupon objects called 'coupons' -->
                 <div class="row">
                 <% if(coupons){ %>
+                    <div class="coupons-container">
                     <% for (let coupon of coupons) { %>
                         <% if(coupon.statusEnable === true){ %>
-                <div class=" col-lg-6 card text-center mb-5 " style="height: fit-content;">
+                <div class=" col-lg-6 card text-center mb-5  " style="height: fit-content;">
                     <div class="card-header ">
                       Your Coupons
                     </div>
-                    <div class="card-body p-auto">
+                    <div class="card-body p-auto ">
                        
                       
                         <h5 class="card-title">Coupon Code: <%= coupon.couponCode %></h5>
                         <p class="card-text">Expires on:  <%= coupon.expires  %></p>
-                        <p class="card-text">Discount Amount: <%= coupon.discount %> %</p>
-                        <p class="card-text">Minimum Purchase : <%= coupon.minPurchase %></p>
+                        <p class="card-text">Discount : <%= coupon.discount %> %</p>
+                        <p class="card-text">Minimum Purchase : &#x20B9;<%= coupon.minPurchase %></p>
                         <% if (new Date(coupon.expires) > Date.now()) { %>
                             <button class="btn btn-primary copy-btn" data-code="<%= coupon.couponCode %>">Copy Code</button>
                           <% }else{ %>
@@ -174,6 +188,7 @@
                   </div >
                   <% } %>
                   <% } %>
+                    </div>
                   <% }else{ %>
                       <p class="card-text">NO coupons found</p>
 
@@ -182,7 +197,7 @@
                     </div>
                 <!-- <form class="mb-30" action=""> -->
                     <p id="message" style="color: red;"></p>
-                    <p id="successMsg" style="color: rgb(12, 246, 187);"></p>
+                    <p id="successMsg" style="color: rgb(0, 166, 255);"></p>
                       <div class="input-group  mb-5 "style="z-index: 1; ">
                           <input type="text" class="form-control border-0 p-4" id="couponId" placeholder= " Enter Your Coupon Code">
                           <div class="input-group-append">
@@ -203,7 +218,7 @@
                                     <%=item.productInfo.name %>
                                 </p>
                                 <p>
-                                    <%= item.productInfo.price * item.quantity %>
+                                    &#x20B9;<%= item.productInfo.price * item.quantity %>
                                 </p>
                             </div>
                          
@@ -213,7 +228,7 @@
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
                             <h6>
-                                <%=locals.total[0].total %>
+                                &#x20B9;<%=locals.total[0].total %>
                             </h6>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
@@ -229,7 +244,7 @@
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
                             <h5 id="subtotalAmount">
-                                <%= locals.total[0].total %>
+                                &#x20B9;<%= locals.total[0].total %>
                             </h5>
                         </div>
                     </div>

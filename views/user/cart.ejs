@@ -58,7 +58,7 @@
                                 <%=item.productInfo.name %>
                             </td>
                             <td class="align-middle">
-                                <%=item.productInfo.price %>
+                              &#x20B9;<%=item.productInfo.price %>
                             </td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -82,7 +82,7 @@
                             </td>
 
                             <td class="align-middle" id="subtotal">
-                                <%=item.productInfo.price * item.quantity %>
+                              &#x20B9;<%=item.productInfo.price * item.quantity %>
                             </td>
 
                             <td class="align-middle"><button class="btn btn-sm btn-danger"
@@ -115,7 +115,7 @@
   <div class="d-flex justify-content-between mb-3">
     <h6>Subtotal</h6>
     <% if (locals.total && locals.total.length > 0 && locals.total[0].totalMrp) { %>
-      <h6 id="totalMrp"><%= total[0].totalMrp %></h6>
+      <h6 id="totalMrp"> &#x20B9;<%= total[0].totalMrp %></h6>
     <% } else { %>
       <h6 id="totalMrp">0</h6>
     <% } %>
@@ -139,7 +139,7 @@
   <div class="d-flex justify-content-between mt-2">
     <h5>Total</h5>
     <% if(locals.total && locals.total.length>0){ %>
-      <h5 id="subtotalAmount"><%=total[0].totalPrice %></h5>
+      <h5 id="subtotalAmount"> &#x20B9;<%=total[0].totalPrice %></h5>
     <% }else{ %>
       <h5 id="subtotalAmount">0</h5>
     <% } %>
