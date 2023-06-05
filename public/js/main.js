@@ -119,25 +119,4 @@
 })(jQuery);
 
 
-function goBack() {
-window.history.back();
-}
-
-function goNext() {
-window.history.forward();
-}
-window.addEventListener("load", function() {
-var previousArrow = document.getElementById("previousArrow");
-var nextArrow = document.getElementById("nextArrow");
-
-
-if (!window.history.back) {
-previousArrow.classList.add("hidden");
-}
-
-if (!window.history.forward) {
-nextArrow.classList.add("hidden");
-}
-});
-
 
