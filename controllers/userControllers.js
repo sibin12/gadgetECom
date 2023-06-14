@@ -143,9 +143,10 @@ if (userVerify) {
    })
    .then((verification)=>{
     console.log(verification.sid,"the otp is generated ")
-    const otpExpiration = new Date().getTime() + 10 * 60 * 1000; // 10 minutes in milliseconds
-    req.session.otpExpiration = otpExpiration;  
+    // const otpExpiration = new Date().getTime() + 10 * 60 * 1000; // 10 minutes in milliseconds
+    // req.session.otpExpiration = otpExpiration;  
     res.redirect('/verify')
+    
     //  res.render('user/otp',{other:true,number,otpErr :req.session.otpErr })
    })
    .catch((error)=>{

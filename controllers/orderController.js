@@ -176,8 +176,10 @@ let cart = await Cart.findOne({userId:req.session.user._id});
 //     }
 
 // ])
-const total = parseInt(req.body.total);
-console.log(total,"totallllllllllllllllll");
+const total = req.body.total;
+ const  Ctotal =total.replace('₹', '');
+  let totalAmount= parseInt(Ctotal);
+console.log(Ctotal,"totallllllllllllllllll");
 
 console.log(cart,"nnnnnnnnnnnnnnnnnnnnnnkkkkkkkkkk");
          
@@ -205,7 +207,7 @@ let prod = cart.product;
         paymentMethod: req.body['payment-method'],
         products: prod,
         // totalAmount: total[0].total,
-        totalAmount: total,
+        totalAmount: totalAmount,
         paymentstatus: status,
         deliverystatus:'not shipped',
         createdAt: new Date()
